@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/gym-lovers/static/css/main.71c10ec7.css",
+    "main.js": "/gym-lovers/static/js/main.8a18a7d1.js",
+    "static/media/all.jpg": "/gym-lovers/static/media/all.580424848340c6e819e1.jpg",
+    "static/media/banner.jpeg": "/gym-lovers/static/media/banner.ebf692b033ec11566b03.jpeg",
+    "static/media/lowerlegs.jpg": "/gym-lovers/static/media/lowerlegs.bd2fcb97bcc12d62018d.jpg",
+    "static/media/cardio.jpg": "/gym-lovers/static/media/cardio.0aa15e9fefaca59a2c55.jpg",
+    "static/media/neck.jpg": "/gym-lovers/static/media/neck.32d00e94c9c23fc54ded.jpg",
+    "static/media/chest.jpg": "/gym-lovers/static/media/chest.075310d76c5e31e6f114.jpg",
+    "static/media/lowerarms.jpg": "/gym-lovers/static/media/lowerarms.be71d9880e6ca8212309.jpg",
+    "static/media/logo.png": "/gym-lovers/static/media/logo.c01ef017da9b3e4e09b8.png",
+    "static/media/back.jpg": "/gym-lovers/static/media/back.7212211a1fd49832cc6d.jpg",
+    "static/media/upperarms.jpg": "/gym-lovers/static/media/upperarms.bb1340412ddcf30edace.jpg",
+    "static/media/upperlegs.jpg": "/gym-lovers/static/media/upperlegs.b7955eabf07054d71c53.jpg",
+    "static/media/waist.jpg": "/gym-lovers/static/media/waist.0d1326ddad38ff82adc7.jpg",
+    "static/media/shoulders.jpg": "/gym-lovers/static/media/shoulders.b3e0a60e3294aa497976.jpg",
+    "index.html": "/gym-lovers/index.html",
+    "main.71c10ec7.css.map": "/gym-lovers/static/css/main.71c10ec7.css.map",
+    "main.8a18a7d1.js.map": "/gym-lovers/static/js/main.8a18a7d1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.71c10ec7.css",
+    "static/js/main.8a18a7d1.js"
+  ]
+}
