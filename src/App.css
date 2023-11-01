@@ -33,7 +33,6 @@ body {
   justify-content: center;
   align-items: center;
   color: #FF2625;
-  font-size: 25px;
   border-radius: 50%;
   position: absolute;
   bottom: 45%;
@@ -120,7 +119,7 @@ body {
 }
 
 .exercise-card:hover {
-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
 }
 
 
@@ -214,15 +213,44 @@ transform: scale(1.1, 1.1);
 
 @media screen and (max-width:700px) {
   .banner-img {
-    display: none;
+    width: calc(100% - 50px);
+    left: 0;
+    border-radius: 0 0 30px 30px;
   }
 }
 
+@media screen and (max-width:600px) {
+  .banner-img {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .right-arrow,
+  .left-arrow {
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .right-arrow img,
+  .left-arrow img {
+    width: 20px;
+  }
+
+  .right-arrow {
+    left: 0;
+  }
+
+  .left-arrow {
+    right: 0;
+  }
+}
 
 @media screen and (max-width:400px) {
   .exercise-card {
     width: 260px;
   }
+
   .exercise-video {
     width: 260px;
     height: 260px;
