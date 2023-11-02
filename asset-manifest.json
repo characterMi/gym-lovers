@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/gym-lovers/static/css/main.7f9c6c22.css",
-    "main.js": "/gym-lovers/static/js/main.4f50c01c.js",
+    "main.css": "/gym-lovers/static/css/main.fc2e0792.css",
+    "main.js": "/gym-lovers/static/js/main.794b8a5e.js",
     "static/media/all.jpg": "/gym-lovers/static/media/all.580424848340c6e819e1.jpg",
     "static/media/banner.jpeg": "/gym-lovers/static/media/banner.ebf692b033ec11566b03.jpeg",
     "static/media/lowerlegs.jpg": "/gym-lovers/static/media/lowerlegs.bd2fcb97bcc12d62018d.jpg",
@@ -16,11 +16,11 @@
     "static/media/waist.jpg": "/gym-lovers/static/media/waist.0d1326ddad38ff82adc7.jpg",
     "static/media/shoulders.jpg": "/gym-lovers/static/media/shoulders.b3e0a60e3294aa497976.jpg",
     "index.html": "/gym-lovers/index.html",
-    "main.7f9c6c22.css.map": "/gym-lovers/static/css/main.7f9c6c22.css.map",
-    "main.4f50c01c.js.map": "/gym-lovers/static/js/main.4f50c01c.js.map"
+    "main.fc2e0792.css.map": "/gym-lovers/static/css/main.fc2e0792.css.map",
+    "main.794b8a5e.js.map": "/gym-lovers/static/js/main.794b8a5e.js.map"
   },
   "entrypoints": [
-    "static/css/main.7f9c6c22.css",
-    "static/js/main.4f50c01c.js"
+    "static/css/main.fc2e0792.css",
+    "static/js/main.794b8a5e.js"
   ]
 }
