@@ -26,7 +26,7 @@ const BodyPart = ({ item, bodyPart, setBodyPart, image }) => {
                     window.scrollTo({ top: 1800, left: 100, behavior: "smooth" })
                 }}
             >
-                <img style={{ opacity: bodyPart === item ? .6 : .3 }} className="bg-image" src={image} alt={item} loading="lazy" />
+                <img style={{ opacity: bodyPart === item ? .6 : .3 }} className="bg-image" src={image} alt={item} />
                 <img src={Icon} alt="dumbbell" style={{ width: "40px", height: "40px" }} />
                 <Typography fontSize="24px" fontWeight="bold" color="#3a1212" textTransform="capitalize">
                     {item}

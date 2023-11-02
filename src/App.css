@@ -21,6 +21,7 @@ body {
 ::selection {
   background-color: #fff2db;
   color: #ff2625;
+  border-radius: 20px;
 }
 
 .right-arrow,
