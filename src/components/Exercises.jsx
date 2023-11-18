@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import Pagination from "@mui/material/Pagination";
-import { Box, Typography, Stack } from "@mui/material";
+import { Box, Typography, Stack, useMediaQuery } from "@mui/material";
 import { exerciseOptions, fetchData } from '../utils/fetchData';
 import { ExerciseCard, Loader, Error } from './';
 
 const Exercises = ({ setExercises, exercises, bodyPart, loading, setLoading }) => {
+
+  const isMobile = useMediaQuery('(max-width:600px)')
 
   const [currentPage, setCurrentPage] = useState(1)
   const exercisesPerPage = 9;
@@ -67,13 +69,13 @@ const Exercises = ({ setExercises, exercises, bodyPart, loading, setLoading }) =
           <Stack mt="100px" alignItems="center">
             {exercises.length > 9 && (
               <Pagination
-                color="standard"
+                color="error"
                 shape="rounded"
                 defaultPage={1}
                 count={Math.ceil(exercises.length / exercisesPerPage)}
                 page={currentPage}
                 onChange={paginate}
-                size="large"
+                size={isMobile ? 'medium' : 'large'}
               />
             )}
           </Stack>
