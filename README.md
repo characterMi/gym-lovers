@@ -1,6 +1,6 @@
-# 🔩 Gym Lovers
+# 💪🏻 Gym Lovers
 
-### a modern Web application fitness exercises app, with the functionality to choose exercise categories and specific muscle groups, browse more than 1000 exercises with practical examples and much more... .
+### a modern Web application fitness exercises app, with the functionality to choose exercise categories and specific muscle groups, browse more than 1000 exercises with practical examples and much more... . (اگه ایران هستید از فیلترشکن استفاده کنید)
 
 ## Link 🔗 [https://charactermi.github.io/gym-lovers](https://charactermi.github.io/gym-lovers)
 
@@ -29,18 +29,18 @@
 
 <ul>
     <li>
-        <img src="https://github.com/characterMi/characterMi/raw/main/technologies/icons8-html.svg" alt="HTML" />
+        <img src="https://github.com/characterMi/characterMi/raw/main/images/technologies/icons8-html.svg" alt="HTML" />
     </li>
     <li>
-        <img src="https://github.com/characterMi/characterMi/raw/main/technologies/icons8-css.svg" alt="Css" />
+        <img src="https://github.com/characterMi/characterMi/raw/main/images/technologies/icons8-css.svg" alt="Css" />
     </li>
     <li>
-        <img src="https://github.com/characterMi/characterMi/raw/main/technologies/icons8-js.svg" alt="Js" />
+        <img src="https://github.com/characterMi/characterMi/raw/main/images/technologies/icons8-js.svg" alt="Js" />
     </li>
     <li>
-        <img src="https://github.com/characterMi/characterMi/raw/main/technologies/icons8-react-native.svg" width="46" height="46" alt="React" />
+        <img src="https://github.com/characterMi/characterMi/raw/main/images/technologies/icons8-react-native.svg" width="46" height="46" alt="React" />
     </li>
     <li>
-        <img src="https://github.com/characterMi/characterMi/raw/main/technologies/icons8-material-ui.svg" width="46" height="46" alt="MUI" />
+        <img src="https://github.com/characterMi/characterMi/raw/main/images/technologies/icons8-material-ui.svg" width="46" height="46" alt="MUI" />
     </li>
 </ul>
