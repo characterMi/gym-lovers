@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from 'react';
 import { exerciseOptions, fetchData } from '../utils/fetchData';
 import { HorizontalScrollbar } from './';
 
@@ -48,7 +48,27 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart, setLoading, load
                 Awesome Exercises You <br /> Should Know
             </Typography>
             <Box position="relative" mb="72px">
-                <TextField sx={{ input: { fontWeight: '700', border: "none", borderRadius: "4px" }, width: { md: "800px", xs: '250px', sm: "500px" }, backgroundColor: "#fff", borderRadius: "40px" }} height="76px" value={search} onChange={(e) => setSearch(e.target.value.toLowerCase())} placeholder='Search Exercises' type="text" />
+                <TextField
+                    sx={{
+                        input: {
+                            fontWeight: '700',
+                            border: "none",
+                            borderRadius: "4px",
+                            MozBorderRadius: "4px",
+                            WebkitBorderRadius: "4px"
+                        },
+                        width: { md: "800px", xs: '250px', sm: "500px" },
+                        backgroundColor: "#fff",
+                        borderRadius: "40px",
+                        MozBorderRadius: "40px",
+                        WebkitBorderRadius: "40px"
+                    }}
+                    height="76px"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value.toLowerCase())}
+                    placeholder='Search Exercises'
+                    type="text"
+                />
                 <Button className="search-btn" sx={{
                     bgcolor: "#ff2625",
                     color: "#fff",

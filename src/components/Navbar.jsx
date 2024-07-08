@@ -1,11 +1,26 @@
-import { Link } from 'react-router-dom';
 import { Box, Stack } from "@mui/material";
+import { Link } from 'react-router-dom';
 
 import Logo from "../assets/images/logo.png";
 
 const Navbar = () => {
   return (
-    <Stack direction="row" alignItems="center" sx={{ gap: { sm: "122px", xs: "10px" }, justifyContent: { xs: "space-between", md: "flex-start" }, p: { xs: "20px 5px", sm: "20px" }, boxShadow: "0 0 10px #ddd" }}>
+    <Stack
+      direction="row"
+      alignItems="center"
+      sx={{
+        gap: { sm: "122px", xs: "10px" },
+        WebkitBoxPack: { xs: "justify", md: "start" },
+        WebkitJustifyContent: { xs: "space-between", md: "flex-start" },
+        MozBoxPack: { xs: "justify", md: "start" },
+        msFlexPack: { xs: "justify", md: "start" },
+        justifyContent: { xs: "space-between", md: "flex-start" },
+        p: { xs: "20px 5px", sm: "20px" },
+        MozBoxShadow: "0 0 10px #ddd",
+        WebkitBoxShadow: "0 0 10px #ddd",
+        boxShadow: "0 0 10px #ddd",
+      }}
+    >
       <Link to="/">
         <Box component="img" src={Logo} alt="Logo" sx={{ height: { xs: "56px", sm: "68px" }, m: { xs: "0", sm: "0 20px" } }} />
       </Link>

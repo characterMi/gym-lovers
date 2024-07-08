@@ -1,26 +1,40 @@
-import { useEffect, useState } from 'react';
+import { Box, Stack, Typography, useMediaQuery } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
-import { Box, Typography, Stack, useMediaQuery } from "@mui/material";
+import { useEffect, useState } from 'react';
+import { useSearchParams } from "react-router-dom";
 import { exerciseOptions, fetchData } from '../utils/fetchData';
-import { ExerciseCard, Loader, Error } from './';
+import { Error, ExerciseCard, Loader } from './';
+
+const EXERCISES_PER_PAGE = 9;
 
 const Exercises = ({ setExercises, exercises, bodyPart, loading, setLoading }) => {
 
   const isMobile = useMediaQuery('(max-width:600px)')
 
   const [currentPage, setCurrentPage] = useState(1)
-  const exercisesPerPage = 9;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get("page"));
+  const bodyPartFromQueryParams = searchParams.get("bodyPart");
 
-  const paginate = (e, value) => {
-    setCurrentPage(value)
+  const paginate = (_, value) => {
+    setSearchParams({ bodyPart: bodyPartFromQueryParams, page: value })
+    setCurrentPage(page)
     window.scrollTo({
       top: 1800, behavior: "smooth"
     })
   };
 
-  const indexOfLastExercise = currentPage * exercisesPerPage;
-  const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
+  const indexOfLastExercise = currentPage * EXERCISES_PER_PAGE;
+  const indexOfFirstExercise = indexOfLastExercise - EXERCISES_PER_PAGE;
   const currentExercise = exercises.length > 0 ? exercises.slice(indexOfFirstExercise, indexOfLastExercise) : exercises
+
+  useEffect(() => {
+    if (!page || page < 0) {
+      setSearchParams({ bodyPart: bodyPartFromQueryParams, page: "1" })
+    }
+
+    setCurrentPage(page)
+  }, [page]);
 
   useEffect(() => {
     const fetchExercisesData = async () => {
@@ -46,7 +60,8 @@ const Exercises = ({ setExercises, exercises, bodyPart, loading, setLoading }) =
   }, [bodyPart])
 
   return (
-    <Box id="exercises"
+    <Box
+      id="exercises"
       sx={{ mt: { lg: "110px" } }}
       mt="50px"
       p="20px"
@@ -67,12 +82,12 @@ const Exercises = ({ setExercises, exercises, bodyPart, loading, setLoading }) =
             <Error message="Nothing Found !" />
           }
           <Stack mt="100px" alignItems="center">
-            {exercises.length > 9 && (
+            {exercises?.length > 9 && (
               <Pagination
                 color="error"
                 shape="rounded"
                 defaultPage={1}
-                count={Math.ceil(exercises.length / exercisesPerPage)}
+                count={Math.ceil(exercises.length / EXERCISES_PER_PAGE)}
                 page={currentPage}
                 onChange={paginate}
                 size={isMobile ? 'medium' : 'large'}

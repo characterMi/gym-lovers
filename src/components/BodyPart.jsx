@@ -1,8 +1,12 @@
 import { Stack, Typography } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
 import Icon from "../assets/icons/gym.png";
 
 
 const BodyPart = ({ item, bodyPart, setBodyPart, image }) => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const bodyPartFromQueryParams = searchParams.get("bodyPart");
+
     return (
         <>
             <Stack
@@ -13,16 +17,21 @@ const BodyPart = ({ item, bodyPart, setBodyPart, image }) => {
                 sx={{
                     borderTop: bodyPart === item ? "4px solid #ff2625" : '',
                     backgroundColor: "#fff",
+                    MozBorderRadius: "0 40px 0 40px",
+                    WebkitBorderRadius: "0 40px 0 40px",
                     borderRadius: "0 40px 0 40px",
                     width: { xs: "200px", sm: "270px" },
                     height: { xs: "210px", sm: "280px" },
                     cursor: "pointer",
                     gap: "47px",
+                    MozBoxShadow: "0 0 10px #ddd",
+                    WebkitBoxShadow: "0 0 10px #ddd",
                     boxShadow: "0 0 10px #ddd",
                     position: "relative"
                 }}
                 onClick={() => {
-                    setBodyPart(item);
+                    setSearchParams({ bodyPart: item, page: "1" })
+                    setBodyPart(bodyPartFromQueryParams);
                     window.scrollTo({ top: 1800, left: 100, behavior: "smooth" })
                 }}
             >

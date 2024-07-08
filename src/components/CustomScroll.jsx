@@ -1,5 +1,5 @@
-import { Box } from '@mui/material'
-import { useEffect, useRef } from 'react'
+import { Box } from '@mui/material';
+import { useEffect, useRef } from 'react';
 
 const CustomScroll = () => {
     const customScroll = useRef();
@@ -18,7 +18,7 @@ const CustomScroll = () => {
         }
     }, [])
     return (
-        <Box ref={customScroll} component="div" sx={{ position: "fixed", height: "4px", backgroundImage: "linear-gradient(90deg, #ff2625, #ff6969)", zIndex: "1000", transition: "all 0.2s ease" }} />
+        <Box ref={customScroll} component="div" className="custom-scroll" />
     )
 }
 
