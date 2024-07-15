@@ -1,15 +1,23 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from 'react';
+import { useSearchParams } from "react-router-dom";
 import { exerciseOptions, fetchData } from '../utils/fetchData';
 import { HorizontalScrollbar } from './';
 
 
-const SearchExercises = ({ setExercises, bodyPart, setBodyPart, setLoading, loading }) => {
+const SearchExercises = ({ setExercises, bodyPart, setBodyPart, setLoading }) => {
     const [search, setSearch] = useState('');
     const [bodyParts, setBodyParts] = useState([]);
     const [bodyPartLoading, setBodyPartLoading] = useState(false)
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const bodyPartFromQueryParams = searchParams.get("bodyPart");
+    const page = searchParams.get("page");
+    const searchTerm = searchParams.get("search");
+
     useEffect(() => {
+        if (searchTerm) setSearch(searchTerm);
+
         const fetchExercisesData = async () => {
             setBodyPartLoading(true)
             const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList?limit=3000', exerciseOptions)
@@ -20,11 +28,13 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart, setLoading, load
                 setBodyParts([])
             }
         }
+
         fetchExercisesData()
-    }, [])
+    }, []);
 
     const handleSearch = async () => {
-        if (search) {
+        if (search.trim()) {
+            setSearchParams({ bodyPart: bodyPartFromQueryParams, page, search })
             setLoading(true)
             const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises?limit=3000', exerciseOptions);
             setLoading(false)

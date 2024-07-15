@@ -8,16 +8,15 @@ import { Error, ExerciseCard, Loader } from './';
 const EXERCISES_PER_PAGE = 9;
 
 const Exercises = ({ setExercises, exercises, bodyPart, loading, setLoading }) => {
-
-  const isMobile = useMediaQuery('(max-width:600px)')
-
+  const isMobile = useMediaQuery('(max-width:600px)');
   const [currentPage, setCurrentPage] = useState(1)
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page"));
   const bodyPartFromQueryParams = searchParams.get("bodyPart");
+  const search = searchParams.get("search");
 
   const paginate = (_, value) => {
-    setSearchParams({ bodyPart: bodyPartFromQueryParams, page: value })
+    setSearchParams({ bodyPart: bodyPartFromQueryParams, page: value, search })
     setCurrentPage(page)
     window.scrollTo({
       top: 1800, behavior: "smooth"
@@ -30,7 +29,9 @@ const Exercises = ({ setExercises, exercises, bodyPart, loading, setLoading }) =
 
   useEffect(() => {
     if (!page || page < 0) {
-      setSearchParams({ bodyPart: bodyPartFromQueryParams, page: "1" })
+      search
+        ? setSearchParams({ bodyPart: bodyPartFromQueryParams, page: "1", search })
+        : setSearchParams({ bodyPart: bodyPartFromQueryParams, page: "1" })
     }
 
     setCurrentPage(page)
@@ -39,15 +40,14 @@ const Exercises = ({ setExercises, exercises, bodyPart, loading, setLoading }) =
   useEffect(() => {
     const fetchExercisesData = async () => {
       let exercisesData = [];
+
+      setLoading(true)
       if (bodyPart === "all") {
-        setLoading(true)
         exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises?offset=0&limit=3000', exerciseOptions)
-        setLoading(false)
       } else {
-        setLoading(true)
         exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}?offset=0&limit=3000`, exerciseOptions)
-        setLoading(false)
       }
+      setLoading(false)
 
       if (exercisesData) {
         setExercises(exercisesData)
