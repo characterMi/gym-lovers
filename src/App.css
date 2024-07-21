@@ -210,6 +210,18 @@ body {
   height: 326px;
 }
 
+.exercise-card__title {
+  margin-block: 15px !important;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -moz-box;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+
 .bodyPart-card {
   -webkit-transform: scale(1, 1);
   -moz-transform: scale(1, 1);

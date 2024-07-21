@@ -59,7 +59,7 @@ const Detail = ({ exerciseDetail, loading }) => {
                   {name}
                 </Typography>
                 <Typography variant="h6">
-                  Exercises keep you strong.
+                  Exercises keep you strong.{" "}
                   <mark
                     style={{
                       background: "none",
@@ -70,7 +70,7 @@ const Detail = ({ exerciseDetail, loading }) => {
                     }}
                   >
                     {name}
-                  </mark>
+                  </mark>{" "}
                   is one of the best exercises to target your {target}. It will help you improve your mood and gain energy.
                 </Typography>
                 {extraDetail.map((item, index) => (
