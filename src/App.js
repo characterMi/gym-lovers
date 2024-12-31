@@ -1,13 +1,17 @@
 import { Box } from "@mui/material";
-import { lazy, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Route, Routes } from "react-router-dom";
-import { CustomScroll, Footer, Navbar } from "./components";
+import { CustomScroll, Footer, Loader, Navbar } from "./components";
 
 import "./App.css";
 
 const ExerciseDetail = lazy(() => import("./pages/ExerciseDetail"));
 const Home = lazy(() => import("./pages/Home"));
+
+const RouteWithinSuspense = ({ child }) => (
+  <Suspense fallback={<Loader />}>{child}</Suspense>
+);
 
 const App = () => {
   const [loading, setLoading] = useState(false);
@@ -24,12 +28,20 @@ const App = () => {
           <Routes>
             <Route
               path="/"
-              element={<Home loading={loading} setLoading={setLoading} />}
+              element={
+                <RouteWithinSuspense
+                  child={<Home loading={loading} setLoading={setLoading} />}
+                />
+              }
             />
             <Route
               path="/exercise/:id"
               element={
-                <ExerciseDetail loading={loading} setLoading={setLoading} />
+                <RouteWithinSuspense
+                  child={
+                    <ExerciseDetail loading={loading} setLoading={setLoading} />
+                  }
+                />
               }
             />
           </Routes>
