@@ -1,107 +1,181 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from 'react';
-import { useSearchParams } from "react-router-dom";
-import { exerciseOptions, fetchData } from '../utils/fetchData';
-import { HorizontalScrollbar } from './';
+import { useEffect, useState } from "react";
+import { useSearchParams } from "../hooks/useSearchParams";
+import { useDataStore } from "../providers/DataStoreContext";
+import { exerciseOptions, fetchData } from "../utils/fetchData";
+import { HorizontalScrollbar } from "./";
 
+const BodyPartsList = ({ bodyPart, setBodyPart, getDataByUrl, setNewData }) => {
+  const [bodyParts, setBodyParts] = useState([]);
+  const [bodyPartsLoading, setBodyPartsLoading] = useState(true);
 
-const SearchExercises = ({ setExercises, bodyPart, setBodyPart, setLoading }) => {
-    const [search, setSearch] = useState('');
-    const [bodyParts, setBodyParts] = useState([]);
-    const [bodyPartLoading, setBodyPartLoading] = useState(false)
+  useEffect(() => {
+    const url =
+      "https://exercisedb.p.rapidapi.com/exercises/bodyPartList?limit=3000";
+    const cachedData = getDataByUrl(url);
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const bodyPartFromQueryParams = searchParams.get("bodyPart");
-    const page = searchParams.get("page");
-    const searchTerm = searchParams.get("search");
+    (async () => {
+      if (cachedData) setBodyParts(cachedData);
 
-    useEffect(() => {
-        if (searchTerm) setSearch(searchTerm);
+      try {
+        setBodyPartsLoading(true);
+        const bodyPartsData = await fetchData(url, exerciseOptions);
 
-        const fetchExercisesData = async () => {
-            setBodyPartLoading(true)
-            const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList?limit=3000', exerciseOptions)
-            setBodyPartLoading(false)
-            if (bodyPartsData) {
-                setBodyParts(['all', ...bodyPartsData])
-            } else {
-                setBodyParts([])
-            }
+        if (bodyPartsData) {
+          const allBodyParts = ["all", ...bodyPartsData];
+
+          setBodyParts(allBodyParts);
+          setNewData(url, allBodyParts);
+        } else {
+          setBodyParts([]);
         }
+      } catch {
+        setBodyParts([]);
+      } finally {
+        setBodyPartsLoading(false);
+      }
+    })();
+  }, []);
 
-        fetchExercisesData()
-    }, []);
+  return (
+    <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
+      <HorizontalScrollbar
+        loading={bodyPartsLoading}
+        isBodyParts
+        data={bodyParts}
+        bodyPart={bodyPart}
+        setBodyPart={setBodyPart}
+      />
+    </Box>
+  );
+};
 
-    const handleSearch = async () => {
-        if (search.trim()) {
-            setSearchParams({ bodyPart: bodyPartFromQueryParams, page, search })
-            setLoading(true)
-            const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises?limit=3000', exerciseOptions);
-            setLoading(false)
-            if (exercisesData) {
-                const searchedExercises = exercisesData.filter(
-                    (exercise) => exercise.name.toLowerCase().includes(search)
-                        || exercise.target.toLowerCase().includes(search)
-                        || exercise.equipment.toLowerCase().includes(search)
-                        || exercise.bodyPart.toLowerCase().includes(search)
-                );
-                setExercises(searchedExercises);
-            } else {
-                setExercises([])
-            }
-            setSearch('');
-        }
+const SearchExercises = ({
+  setExercises,
+  bodyPart,
+  setBodyPart,
+  setLoading,
+}) => {
+  const { param: searchFromSearchParams, handleChangeSearchParam } =
+    useSearchParams("search");
+  const [search, setSearch] = useState(searchFromSearchParams ?? "");
+  const { getDataByUrl, setNewData } = useDataStore();
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
+
+  async function handleSearch() {
+    const trimmedSearch = search.trim();
+    const url = "https://exercisedb.p.rapidapi.com/exercises?limit=3000";
+
+    async function getData() {
+      const cachedData = getDataByUrl(url);
+
+      if (cachedData) return cachedData;
+
+      try {
+        setLoading(true);
+        const exercisesData = await fetchData(url, exerciseOptions);
+
+        exercisesData && setNewData(url, exercisesData);
+
+        return exercisesData;
+      } catch {
+        return [];
+      } finally {
+        setLoading(false);
+      }
     }
-    return (
-        <Stack alignItems="center" mt="37px" justifyContent="center" p="20px">
-            <Typography textAlign="center" mb="50px" fontWeight={700} sx={{ fontSize: { md: "44px", xs: "30px" } }}>
-                Awesome Exercises You <br /> Should Know
-            </Typography>
-            <Box position="relative" mb="72px">
-                <TextField
-                    sx={{
-                        input: {
-                            fontWeight: '700',
-                            border: "none",
-                            borderRadius: "4px",
-                            MozBorderRadius: "4px",
-                            WebkitBorderRadius: "4px"
-                        },
-                        width: { md: "800px", xs: '250px', sm: "500px" },
-                        backgroundColor: "#fff",
-                        borderRadius: "40px",
-                        MozBorderRadius: "40px",
-                        WebkitBorderRadius: "40px"
-                    }}
-                    height="76px"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value.toLowerCase())}
-                    placeholder='Search Exercises'
-                    type="text"
-                />
-                <Button className="search-btn" sx={{
-                    bgcolor: "#ff2625",
-                    color: "#fff",
-                    textTransform: "none",
-                    width: {
-                        lg: "175px", xs: "80px"
-                    },
-                    fontSize: {
-                        lg: "20px",
-                        xs: "12px"
-                    },
-                    height: "56px",
-                    position: "absolute",
-                    right: 0
-                }}
-                    onClick={handleSearch}
-                >Search</Button>
-            </Box>
-            <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
-                <HorizontalScrollbar loading={bodyPartLoading} isBodyParts data={bodyParts} bodyPart={bodyPart} setBodyPart={setBodyPart} />
-            </Box>
-        </Stack>
-    )
-}
+
+    if (trimmedSearch) {
+      handleChangeSearchParam(trimmedSearch);
+
+      const exercisesData = await getData();
+
+      if (exercisesData) {
+        const searchedExercises = exercisesData.filter(
+          (exercise) =>
+            exercise.name.toLowerCase().includes(search) ||
+            exercise.target.toLowerCase().includes(search) ||
+            exercise.equipment.toLowerCase().includes(search) ||
+            exercise.bodyPart.toLowerCase().includes(search)
+        );
+
+        setExercises(searchedExercises);
+      } else {
+        setExercises([]);
+      }
+
+      setSearch("");
+    }
+  }
+
+  return (
+    <Stack alignItems="center" mt="37px" justifyContent="center" p="20px">
+      <Typography
+        textAlign="center"
+        mb="50px"
+        fontWeight={700}
+        sx={{ fontSize: { md: "44px", xs: "30px" } }}
+      >
+        Awesome Exercises You <br /> Should Know
+      </Typography>
+
+      <Box position="relative" mb="72px">
+        <TextField
+          sx={{
+            input: {
+              fontWeight: "700",
+              border: "none",
+              borderRadius: "4px",
+              MozBorderRadius: "4px",
+              WebkitBorderRadius: "4px",
+            },
+            width: { md: "800px", xs: "250px", sm: "500px" },
+            backgroundColor: "#fff",
+            borderRadius: "40px",
+            MozBorderRadius: "40px",
+            WebkitBorderRadius: "40px",
+          }}
+          height="76px"
+          value={search}
+          onChange={(e) => setSearch(e.target.value.toLowerCase())}
+          placeholder="Search Exercises"
+          type="text"
+        />
+        <Button
+          className="search-btn"
+          sx={{
+            bgcolor: "#ff2625",
+            color: "#fff",
+            textTransform: "none",
+            width: {
+              lg: "175px",
+              xs: "80px",
+            },
+            fontSize: {
+              lg: "20px",
+              xs: "12px",
+            },
+            height: "56px",
+            position: "absolute",
+            right: 0,
+          }}
+          onClick={handleSearch}
+        >
+          Search
+        </Button>
+      </Box>
+
+      <BodyPartsList
+        bodyPart={bodyPart}
+        setBodyPart={setBodyPart}
+        getDataByUrl={getDataByUrl}
+        setNewData={setNewData}
+      />
+    </Stack>
+  );
+};
 
 export default SearchExercises;
