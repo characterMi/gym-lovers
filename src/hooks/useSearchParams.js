@@ -1,16 +1,24 @@
+import { useCallback, useEffect } from "react";
 import { useSearchParams as useSearchParamsRRD } from "react-router-dom";
 
-export const useSearchParams = (name) => {
+export const useSearchParams = (name, subscribe) => {
   const [searchParams, setSearchParams] = useSearchParamsRRD();
   const param = searchParams.get(name);
 
-  const handleChangeSearchParam = (value) => {
-    const newParams = new URLSearchParams(searchParams);
+  useEffect(() => {
+    subscribe?.(param);
+  }, [param]);
 
-    newParams.set(name, value);
+  const handleChangeSearchParam = useCallback(
+    (value) => {
+      const newParams = new URLSearchParams(searchParams);
 
-    setSearchParams(newParams);
-  };
+      newParams.set(name, value);
+
+      setSearchParams(newParams);
+    },
+    [searchParams]
+  );
 
   return { param, handleChangeSearchParam };
 };

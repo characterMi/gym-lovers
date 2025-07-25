@@ -10,7 +10,10 @@ const EXERCISES_PER_PAGE = 9;
 
 const Results = ({ loading, exercises }) => {
   const isMobile = useMediaQuery("(max-width:600px)");
-  const { param: page, handleChangeSearchParam } = useSearchParams("page");
+  const { param: page, handleChangeSearchParam } = useSearchParams(
+    "page",
+    (newValue) => setCurrentPage(Number(newValue) || 1)
+  );
   const [currentPage, setCurrentPage] = useState(Number(page) || 1);
 
   const paginate = (_, value) => {
@@ -47,8 +50,8 @@ const Results = ({ loading, exercises }) => {
         flexWrap="wrap"
         justifyContent="center"
       >
-        {currentExercises.map((exercise, index) => (
-          <ExerciseCard key={index} exercise={exercise} />
+        {currentExercises.map((exercise) => (
+          <ExerciseCard key={exercise.id} exercise={exercise} />
         ))}
       </Stack>
 

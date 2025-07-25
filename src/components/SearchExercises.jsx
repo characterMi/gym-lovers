@@ -52,7 +52,7 @@ const SearchExercises = ({
   setLoading,
 }) => {
   const { param: searchFromSearchParams, handleChangeSearchParam } =
-    useSearchParams("search");
+    useSearchParams("search", (newValue) => setSearch(newValue ?? ""));
   const [search, setSearch] = useState(searchFromSearchParams ?? "");
   const { getDataByUrl, setNewData } = useDataStore();
 

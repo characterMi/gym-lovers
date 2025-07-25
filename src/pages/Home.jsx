@@ -4,7 +4,9 @@ import { Banner, Exercises, SearchExercises } from "../components";
 import { useSearchParams } from "../hooks/useSearchParams";
 
 const Home = () => {
-  const { param } = useSearchParams("bodyPart");
+  const { param } = useSearchParams("bodyPart", (newValue) =>
+    setBodyPart(newValue ?? "all")
+  );
   const [bodyPart, setBodyPart] = useState(param ?? "all");
   const [exercises, setExercises] = useState([]);
   const [bodyPartsLoading, setBodyPartsLoading] = useState(false);
