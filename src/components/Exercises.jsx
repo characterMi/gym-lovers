@@ -89,29 +89,20 @@ const Exercises = ({
 
         if (cachedData) return cachedData;
 
-        try {
-          setLoading(true);
-          const data = await fetchData(url, exerciseOptions);
+        setLoading(true);
+        const data = await fetchData(url, exerciseOptions);
 
-          data && setNewData(url, data);
+        data && setNewData(url, data);
+        setLoading(false);
 
-          return data;
-        } catch {
-          return [];
-        } finally {
-          setLoading(false);
-        }
+        return data || [];
       };
 
       const exercisesData = await getData(
         bodyPart === "all" ? allBodyPartsUrl : specificBodyPartUrl
       );
 
-      if (exercisesData) {
-        setExercises(exercisesData);
-      } else {
-        setExercises([]);
-      }
+      setExercises(exercisesData);
     };
 
     fetchExercisesData();

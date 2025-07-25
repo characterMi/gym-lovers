@@ -4,14 +4,15 @@ import { Error, HorizontalScrollbar, Loader } from "./";
 const Details = ({ loading, exercises }) => {
   if (loading) return <Loader />;
 
-  if (!exercises)
+  if (!exercises) {
     return (
       <Error message="Something went wrong ! Please check your connection" />
     );
+  }
 
   if (exercises.length <= 0) return <Error message="No exercise found!" />;
 
-  return <HorizontalScrollbar data={exercises} />;
+  return <HorizontalScrollbar data={exercises || []} />;
 };
 
 const ExercisesList = ({ loading, exercises }) => (

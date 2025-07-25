@@ -21,7 +21,7 @@ const ExerciseDetail = () => {
     const fetchExercisesData = async () => {
       const exerciseDBUrl = "https://exercisedb.p.rapidapi.com";
 
-      const getData = async (url, isYoutubeReq) => {
+      const getData = async (url, isYoutubeReq = false) => {
         const cachedData = getDataByUrl(url);
 
         if (cachedData) return cachedData;
@@ -69,16 +69,9 @@ const ExerciseDetail = () => {
         ),
       ]);
 
-      if (exerciseVideosData) setExerciseVideos(exerciseVideosData.contents);
-      else setExerciseVideos(undefined);
-
-      if (targetMuscleExercisesData)
-        setTargetMuscleExercises(targetMuscleExercisesData);
-      else setTargetMuscleExercises(undefined);
-
-      if (equipmentMuscleExercisesData)
-        setEquipmentMuscleExercises(equipmentMuscleExercisesData);
-      else setEquipmentMuscleExercises(undefined);
+      setExerciseVideos(exerciseVideosData.contents || []);
+      setTargetMuscleExercises(targetMuscleExercisesData);
+      setEquipmentMuscleExercises(equipmentMuscleExercisesData);
     };
 
     fetchExercisesData();
@@ -88,7 +81,12 @@ const ExerciseDetail = () => {
     <>
       <Helmet>
         <title>
-          Gym Lovers | Exercise {exerciseDetail?.name ?? "(loading...)"}
+          Gym Lovers |{" "}
+          {loading
+            ? "(loading...)"
+            : exerciseDetail?.name
+            ? `${exerciseDetail.name} Exercise`
+            : "(error...)"}
         </title>
       </Helmet>
 

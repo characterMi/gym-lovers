@@ -17,23 +17,18 @@ const BodyPartsList = ({ bodyPart, setBodyPart, getDataByUrl, setNewData }) => {
     (async () => {
       if (cachedData) setBodyParts(cachedData);
 
-      try {
-        setBodyPartsLoading(true);
-        const bodyPartsData = await fetchData(url, exerciseOptions);
+      setBodyPartsLoading(true);
+      const bodyPartsData = await fetchData(url, exerciseOptions);
 
-        if (bodyPartsData) {
-          const allBodyParts = ["all", ...bodyPartsData];
+      if (bodyPartsData) {
+        const allBodyParts = ["all", ...bodyPartsData];
 
-          setBodyParts(allBodyParts);
-          setNewData(url, allBodyParts);
-        } else {
-          setBodyParts([]);
-        }
-      } catch {
+        setBodyParts(allBodyParts);
+        setNewData(url, allBodyParts);
+      } else {
         setBodyParts([]);
-      } finally {
-        setBodyPartsLoading(false);
       }
+      setBodyPartsLoading(false);
     })();
   }, []);
 
@@ -74,38 +69,34 @@ const SearchExercises = ({
 
       if (cachedData) return cachedData;
 
-      try {
-        setLoading(true);
-        const exercisesData = await fetchData(url, exerciseOptions);
+      setLoading(true);
 
-        exercisesData && setNewData(url, exercisesData);
-
-        return exercisesData;
-      } catch {
-        return [];
-      } finally {
+      const exercisesData = await fetchData(url, exerciseOptions);
+      if (!exercisesData) {
         setLoading(false);
+        return [];
       }
+
+      setNewData(url, exercisesData);
+      const searchedExercises = exercisesData.filter(
+        (exercise) =>
+          exercise.name?.toLowerCase().includes(search) ||
+          exercise.target?.toLowerCase().includes(search) ||
+          exercise.equipment?.toLowerCase().includes(search) ||
+          exercise.bodyPart?.toLowerCase().includes(search)
+      );
+
+      setLoading(false);
+
+      return searchedExercises;
     }
 
     if (trimmedSearch) {
       handleChangeSearchParam(trimmedSearch);
 
-      const exercisesData = await getData();
+      const searchedExercises = await getData();
 
-      if (exercisesData) {
-        const searchedExercises = exercisesData.filter(
-          (exercise) =>
-            exercise.name.toLowerCase().includes(search) ||
-            exercise.target.toLowerCase().includes(search) ||
-            exercise.equipment.toLowerCase().includes(search) ||
-            exercise.bodyPart.toLowerCase().includes(search)
-        );
-
-        setExercises(searchedExercises);
-      } else {
-        setExercises([]);
-      }
+      setExercises(searchedExercises);
 
       setSearch("");
     }
