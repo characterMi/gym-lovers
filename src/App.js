@@ -2,7 +2,14 @@ import { Box } from "@mui/material";
 import { lazy, Suspense } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Route, Routes } from "react-router-dom";
-import { CustomScroll, Footer, Loader, Navbar } from "./components";
+import {
+  CustomScroll,
+  Error,
+  ErrorBoundary,
+  Footer,
+  Loader,
+  Navbar,
+} from "./components";
 
 import "./App.css";
 import DataStoreProvider from "./providers/DataStoreContext";
@@ -11,7 +18,13 @@ const ExerciseDetail = lazy(() => import("./pages/ExerciseDetail"));
 const Home = lazy(() => import("./pages/Home"));
 
 const RouteWithinSuspense = ({ child }) => (
-  <Suspense fallback={<Loader />}>{child}</Suspense>
+  <ErrorBoundary
+    fallback={
+      <Error message={"Something went wrong, reload the page to try again."} />
+    }
+  >
+    <Suspense fallback={<Loader />}>{child}</Suspense>
+  </ErrorBoundary>
 );
 
 const App = () => (
