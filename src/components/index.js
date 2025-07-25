@@ -3,7 +3,6 @@ export { default as BodyPart } from "./BodyPart";
 export { default as CustomScroll } from "./CustomScroll";
 export { default as Detail } from "./Detail";
 export { default as Error } from "./Error";
-export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as ExerciseCard } from "./ExerciseCard";
 export { default as Exercises } from "./Exercises";
 export { default as ExerciseVideos } from "./ExerciseVideos";

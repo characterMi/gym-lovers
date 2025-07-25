@@ -10,7 +10,8 @@ const ExerciseDetail = () => {
 
   const { getDataByUrl, setNewData } = useDataStore();
 
-  const [loading, setLoading] = useState(true);
+  const [isExerciseDetailLoading, setIsExerciseDetailLoading] = useState(true);
+  const [isExerciseInfoLoading, setIsExerciseInfoLoading] = useState(true);
   const [exerciseDetail, setExerciseDetail] = useState(undefined);
   const [exerciseVideos, setExerciseVideos] = useState(undefined);
   const [targetMuscleExercises, setTargetMuscleExercises] = useState(undefined);
@@ -26,21 +27,21 @@ const ExerciseDetail = () => {
 
         if (cachedData) return cachedData;
 
-        setLoading(true);
         const data = await fetchData(
           url,
           isYoutubeReq ? youtubeOptions : exerciseOptions
         );
 
-        setLoading(false);
         data && setNewData(url, data);
 
         return data;
       };
 
+      setIsExerciseDetailLoading(true);
       const exerciseDetailData = await getData(
         `${exerciseDBUrl}/exercises/exercise/${id}`
       );
+      setIsExerciseDetailLoading(false);
 
       if (!exerciseDetailData) {
         setExerciseDetail(undefined);
@@ -52,10 +53,11 @@ const ExerciseDetail = () => {
 
       setExerciseDetail(exerciseDetailData);
 
+      setIsExerciseInfoLoading(true);
       const [
-        exerciseVideosData,
-        targetMuscleExercisesData,
-        equipmentMuscleExercisesData,
+        { value: exerciseVideosData },
+        { value: targetMuscleExercisesData },
+        { value: equipmentMuscleExercisesData },
       ] = await Promise.allSettled([
         getData(
           `https://youtube-search-and-download.p.rapidapi.com/search?query=${exerciseDetailData.name}`,
@@ -68,8 +70,9 @@ const ExerciseDetail = () => {
           `${exerciseDBUrl}/exercises/equipment/${exerciseDetailData.equipment}`
         ),
       ]);
+      setIsExerciseInfoLoading(false);
 
-      setExerciseVideos(exerciseVideosData.contents || []);
+      setExerciseVideos(exerciseVideosData?.contents);
       setTargetMuscleExercises(targetMuscleExercisesData);
       setEquipmentMuscleExercises(equipmentMuscleExercisesData);
     };
@@ -82,7 +85,7 @@ const ExerciseDetail = () => {
       <Helmet>
         <title>
           Gym Lovers |{" "}
-          {loading
+          {isExerciseDetailLoading
             ? "(loading...)"
             : exerciseDetail?.name
             ? `${exerciseDetail.name} Exercise`
@@ -90,16 +93,19 @@ const ExerciseDetail = () => {
         </title>
       </Helmet>
 
-      <Detail loading={loading} exerciseDetail={exerciseDetail} />
+      <Detail
+        loading={isExerciseDetailLoading}
+        exerciseDetail={exerciseDetail}
+      />
 
       <ExerciseVideos
-        loading={loading}
+        loading={isExerciseInfoLoading}
         exerciseVideos={exerciseVideos}
         name={exerciseDetail?.name}
       />
 
       <SimilarExercises
-        loading={loading}
+        loading={isExerciseInfoLoading}
         targetMuscleExercises={targetMuscleExercises}
         equipmentMuscleExercises={equipmentMuscleExercises}
       />

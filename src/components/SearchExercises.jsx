@@ -15,7 +15,10 @@ const BodyPartsList = ({ bodyPart, setBodyPart, getDataByUrl, setNewData }) => {
     const cachedData = getDataByUrl(url);
 
     (async () => {
-      if (cachedData) setBodyParts(cachedData);
+      if (cachedData) {
+        setBodyParts(cachedData);
+        return;
+      }
 
       setBodyPartsLoading(true);
       const bodyPartsData = await fetchData(url, exerciseOptions);
@@ -28,6 +31,7 @@ const BodyPartsList = ({ bodyPart, setBodyPart, getDataByUrl, setNewData }) => {
       } else {
         setBodyParts([]);
       }
+
       setBodyPartsLoading(false);
     })();
   }, []);
