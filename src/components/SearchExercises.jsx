@@ -17,6 +17,7 @@ const BodyPartsList = ({ bodyPart, setBodyPart, getDataByUrl, setNewData }) => {
     (async () => {
       if (cachedData) {
         setBodyParts(cachedData);
+        setBodyPartsLoading(false);
         return;
       }
 
@@ -68,34 +69,35 @@ const SearchExercises = ({
     const trimmedSearch = search.trim();
     const url = "https://exercisedb.p.rapidapi.com/exercises?limit=3000";
 
-    async function getData() {
-      const cachedData = getDataByUrl(url);
-
-      if (cachedData) return cachedData;
-
-      setLoading(true);
-
-      const exercisesData = await fetchData(url, exerciseOptions);
-      if (!exercisesData) {
-        setLoading(false);
-        return [];
-      }
-
-      setNewData(url, exercisesData);
-      const searchedExercises = exercisesData.filter(
+    function filterExercises(exercises) {
+      return exercises.filter(
         (exercise) =>
           exercise.name?.toLowerCase().includes(search) ||
           exercise.target?.toLowerCase().includes(search) ||
           exercise.equipment?.toLowerCase().includes(search) ||
           exercise.bodyPart?.toLowerCase().includes(search)
       );
+    }
 
-      setLoading(false);
+    async function getData() {
+      const cachedData = getDataByUrl(url);
 
-      return searchedExercises;
+      if (cachedData) {
+        return filterExercises(cachedData);
+      }
+
+      const exercisesData = await fetchData(url, exerciseOptions);
+      if (!exercisesData) {
+        return [];
+      }
+
+      setNewData(url, exercisesData);
+      return filterExercises(exercisesData);
     }
 
     if (trimmedSearch) {
+      setLoading(true);
+
       handleChangeSearchParam(trimmedSearch);
 
       const searchedExercises = await getData();
@@ -103,6 +105,8 @@ const SearchExercises = ({
       setExercises(searchedExercises);
 
       setSearch("");
+
+      setLoading(false);
     }
   }
 
